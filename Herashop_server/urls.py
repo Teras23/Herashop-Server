@@ -15,11 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 from Herashop import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^stores', views.stores),
+    url(r'^stock/$', views.stock),
+    url(r'^stock/(?P<storeid>[0-9]+)/(?P<excludeid>[0-9]+)/$', views.stock),
+    url(r'^icon/(?P<path>\w+)/$', views.icon),
     url(r'', views.test),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

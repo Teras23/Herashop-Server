@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="eucolus" promptOnLocalOverwrite="false">
+    <serverData>
+      <paths name="eucolus">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/var/www/testing.eucolus.com/public_html/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/var/www/testing.eucolus.com/public_html/herashopenv" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
