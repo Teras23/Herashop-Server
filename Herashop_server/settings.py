@@ -25,7 +25,7 @@ SECRET_KEY = 'xe#_(jbmvfl0r1&s5kmf&nn3ab3!l^j3mlcb*p7l2u)8#s4!k3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['eucolus.com', 'testing.eucolus.com', '127.0.0.1']
+ALLOWED_HOSTS = ['eucolus.com', 'testing.eucolus.com', '127.0.0.1', '192.168.1.241', 'localhost']
 
 
 # Application definition
@@ -131,4 +131,4 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

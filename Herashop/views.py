@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.db import connections
 from django.core import serializers
 from django.conf import settings
-from Herashop.models import Store, Stock
+from Herashop.models import Store, Stock, StoreType
 
 
 def test(request):
@@ -19,21 +19,27 @@ def test(request):
         return HttpResponse("testing.eucolus.com")
 
 
+def storetype(request):
+    qs = StoreType.objects.all()
+    qs_json = serializers.serialize('json', qs)
+    return HttpResponse(qs_json, content_type='application/json')
+
 def stores(request):
-    return HttpResponse(serializers.serialize('json', Store.objects.all()))
+    qs = Store.objects.all()
+    qs_json = serializers.serialize('json', qs)
+    return HttpResponse(qs_json, content_type='application/json')
 
 
 def stock(request, storeid=0, excludeid=0):
-    try:
-        s = Stock.objects.filter(stores=storeid).exclude(excluded_stores=excludeid)
-        return HttpResponse(serializers.serialize('json', s))
-    except Stock.DoesNotExist:
-        raise HttpResponse("Stock not found")
+    qs = Stock.objects.filter(stores=storeid).exclude(excluded_stores=excludeid)
+    qs_json = serializers.serialize('json', qs)
+    return HttpResponse(qs_json, content_type='application/json')
 
 
 def icon(request, path=""):
     try:
-        with open(os.path.join(settings.STATICFILES_DIRS[0], 'rademar.png'), 'rb') as f:
-            return HttpResponse(f.read(), content_type='image/png')
+        with open(os.path.join(settings.MEDIA_ROOT, path + '.png'), 'rb') as file:
+            return HttpResponse(file.read(), content_type='image/png')
     except IOError:
-        return HttpResponse('Could not find file ' + staticfiles_storage.url('rademar.png'))
+        with open(os.path.join(settings.MEDIA_ROOT, 'empty.png'), 'rb') as file:
+            return HttpResponse(file.read(), content_type='image/png')

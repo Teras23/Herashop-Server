@@ -23,6 +23,7 @@ from Herashop import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^stores', views.stores),
+    url(r'^storetype', views.storetype),
     url(r'^stock/$', views.stock),
     url(r'^stock/(?P<storeid>[0-9]+)/(?P<excludeid>[0-9]+)/$', views.stock),
     url(r'^icon/(?P<path>\w+)/$', views.icon),
