@@ -9,9 +9,10 @@ from django.templatetags.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import reverse
 from django.db import connections
+from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 from django.conf import settings
-from Herashop.models import Store, Stock, StoreType
+from Herashop.models import Store, Stock, StoreType, ImageFile
 
 
 def test(request):
@@ -24,9 +25,12 @@ def storetype(request):
     qs_json = serializers.serialize('json', qs)
     return HttpResponse(qs_json, content_type='application/json')
 
+
 def stores(request):
     qs = Store.objects.all()
+    qs = Store.objects.prefetch_related().all()
     qs_json = serializers.serialize('json', qs)
+    print(qs_json)
     return HttpResponse(qs_json, content_type='application/json')
 
 
@@ -38,7 +42,25 @@ def stock(request, storeid=0, excludeid=0):
 
 def icon(request, path=""):
     try:
-        with open(os.path.join(settings.MEDIA_ROOT, path + '.png'), 'rb') as file:
+        with open(os.path.join(settings.MEDIA_ROOT, path), 'rb') as file:
+            return HttpResponse(file.read(), content_type='image/png')
+    except IOError:
+        with open(os.path.join(settings.MEDIA_ROOT, 'empty.png'), 'rb') as file:
+            return HttpResponse(file.read(), content_type='image/png')
+
+
+def imageId(request, id=1):
+    try:
+        qs = ImageFile.objects.get(id=id)
+        with open(os.path.join(settings.MEDIA_ROOT, str(qs.file)), 'rb') as file:
+            return HttpResponse(file.read(), content_type='image/jpg')
+    except (IOError, ObjectDoesNotExist) as e:
+        return HttpResponse("Error " + str(e))
+
+
+def image(request, path=""):
+    try:
+        with open(os.path.join(settings.MEDIA_ROOT, path), 'rb') as file:
             return HttpResponse(file.read(), content_type='image/png')
     except IOError:
         with open(os.path.join(settings.MEDIA_ROOT, 'empty.png'), 'rb') as file:

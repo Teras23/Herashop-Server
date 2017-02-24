@@ -21,13 +21,15 @@ from django.conf.urls.static import static
 from Herashop import views
 
 urlpatterns = [
+    url(r'^$', views.test),
     url(r'^admin/', admin.site.urls),
     url(r'^stores', views.stores),
     url(r'^storetype', views.storetype),
     url(r'^stock/$', views.stock),
     url(r'^stock/(?P<storeid>[0-9]+)/(?P<excludeid>[0-9]+)/$', views.stock),
-    url(r'^icon/(?P<path>\w+)/$', views.icon),
-    url(r'', views.test),
+    url(r'^icon/(?P<path>[\w.]+)/$', views.icon),
+    url(r'^image/(?P<path>[\w.-]+)/$', views.image),
+    url(r'^imageId/(?P<id>[0-9]+)/$', views.imageId),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
